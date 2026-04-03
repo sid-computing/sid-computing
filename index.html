@@ -2,35 +2,92 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Interactive Exam Cutoffs</title>
+<title>Insane Animated Exam Cutoffs</title>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.10.1/tsparticles.min.js"></script>
 <style>
-    body { font-family: Arial; margin: 30px; text-align:center; }
-    select { margin: 10px; padding:5px; }
+    html, body {
+        margin:0;
+        padding:0;
+        width:100%;
+        height:100%;
+        overflow:hidden;
+        background:#0a0a0a;
+        font-family: Arial, sans-serif;
+        color:#fff;
+    }
+    #particles-js {
+        position:absolute;
+        width:100%;
+        height:100%;
+        z-index:0;
+    }
+    #content {
+        position:relative;
+        z-index:1;
+        text-align:center;
+        padding-top:50px;
+    }
+    select {
+        margin:10px;
+        padding:5px;
+    }
+    #graph {
+        width:90%;
+        max-width:1000px;
+        height:600px;
+        margin:auto;
+        background: rgba(0,0,0,0.5);
+        border-radius:15px;
+        padding:10px;
+    }
 </style>
 </head>
 <body>
-<h2>Exam Cutoffs Dashboard</h2>
 
-<!-- Dropdowns -->
-<label>Choose Year:</label>
-<select id="yearSelect"></select>
+<div id="particles-js"></div>
 
-<label>Choose State:</label>
-<select id="stateSelect"></select>
+<div id="content">
+    <h1>🔥 Exam Cutoffs Dashboard 🔥</h1>
 
-<div id="graph" style="width:90%;max-width:900px;height:500px;margin:auto;"></div>
+    <label>Choose Year:</label>
+    <select id="yearSelect"></select>
+
+    <label>Choose State:</label>
+    <select id="stateSelect"></select>
+
+    <div id="graph"></div>
+</div>
 
 <script>
-let dataJSON = {}; // This will be filled from JSON file
+// ---------- Particles Background ----------
+tsParticles.load("particles-js", {
+    particles: {
+        number: { value: 80 },
+        color: { value: ["#00ffff", "#ff00ff", "#ff0000"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random:true },
+        size: { value: 3, random:true },
+        move: { enable:true, speed:2, direction:"none", outMode:"bounce" },
+        links: { enable:true, distance:150, color:"#ffffff", opacity:0.2, width:1 }
+    },
+    interactivity: {
+        events: { onHover:{ enable:true, mode:"repulse" } },
+        modes:{ repulse:{ distance:100 } }
+    },
+    background: { color:"#0a0a0a" }
+});
+</script>
 
-// Load data dynamically
-async function loadData() {
-    const res = await fetch('cutoffs.json?ts=' + new Date().getTime()); // cache-busting
-    dataJSON = await res.json();
-    populateDropdowns();
-    updateGraph(); // initial graph
-}
+<script>
+// ---------- Dynamic Plotly Graph ----------
+let dataJSON = {};
+
+// Sample JSON, you can replace with fetch('cutoffs.json') dynamically
+dataJSON = {
+    "2023": {"California":85,"Texas":78,"Florida":90,"New York":82},
+    "2024": {"California":88,"Texas":81,"Florida":92,"New York":85}
+};
 
 function populateDropdowns() {
     const years = Object.keys(dataJSON);
@@ -46,7 +103,6 @@ function populateDropdowns() {
     stateSelect.onchange = updateGraph;
 }
 
-// Update graph dynamically
 function updateGraph() {
     const selectedYear = document.getElementById('yearSelect').value;
     const selectedState = document.getElementById('stateSelect').value;
@@ -54,42 +110,43 @@ function updateGraph() {
     const years = Object.keys(dataJSON);
     const states = Object.keys(dataJSON[years[0]]);
 
-    let xData = [];
-    let yData = [];
+    let xData=[], yData=[], title='';
 
     if(selectedYear && selectedState) {
-        // Single value, show as simple bar
-        xData = [selectedState];
-        yData = [dataJSON[selectedYear][selectedState]];
+        xData=[selectedState]; yData=[dataJSON[selectedYear][selectedState]];
+        title=`Cutoff for ${selectedState} in ${selectedYear}`;
     } else if(selectedYear) {
-        // State vs Cutoff for selected year
-        xData = states;
-        yData = states.map(s => dataJSON[selectedYear][s]);
+        xData=states;
+        yData=states.map(s=>dataJSON[selectedYear][s]);
+        title=`State vs Cutoff for ${selectedYear}`;
     } else if(selectedState) {
-        // Year vs Cutoff for selected state
-        xData = years;
-        yData = years.map(y => dataJSON[y][selectedState]);
+        xData=years;
+        yData=years.map(y=>dataJSON[y][selectedState]);
+        title=`Year vs Cutoff for ${selectedState}`;
     }
 
     const trace = {
-        x: xData,
-        y: yData,
-        type: 'bar',
-        marker: { color: 'rgba(55,128,191,0.7)', line: { color: 'rgba(55,128,191,1.0)', width: 2 } },
-        hoverinfo: 'x+y',
+        x:xData, y:yData, type:'bar',
+        marker:{ color:yData.map(v=>v>=85?'#00ff00':v>=80?'#ffff00':'#ff0000') },
+        text:yData.map(v=>v.toString()), textposition:'auto',
+        hoverinfo:'x+y', hoverlabel:{bgcolor:"#111"}
     };
 
     const layout = {
-        title: `Cutoffs Graph`,
-        xaxis: { title: 'X Axis' },
-        yaxis: { title: 'Cutoff Score', range: [0, 100] },
-        transition: { duration: 800, easing: 'cubic-in-out' } // smooth animation
+        title: title,
+        paper_bgcolor:'rgba(0,0,0,0)',
+        plot_bgcolor:'rgba(0,0,0,0)',
+        xaxis:{ title:'X Axis', color:'#fff' },
+        yaxis:{ title:'Cutoff', range:[0,100], color:'#fff' },
+        transition:{ duration:1000, easing:'cubic-in-out' }
     };
 
-    Plotly.newPlot('graph', [trace], layout, {responsive:true});
+    Plotly.newPlot('graph',[trace],layout,{responsive:true});
 }
 
-loadData();
+populateDropdowns();
+updateGraph();
 </script>
+
 </body>
 </html>
