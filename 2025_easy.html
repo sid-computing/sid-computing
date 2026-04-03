@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2025 Easy Questions</title>
+<style>
+body { font-family: Arial; background:#0a0a0a; color:#fff; padding:50px; }
+.question { background: rgba(0,0,0,0.5); padding:20px; margin-bottom:20px; border-radius:10px; }
+input { padding:5px; width:60px; margin-right:10px; }
+button { padding:5px 10px; margin-right:10px; }
+.solution { display:none; background:rgba(255,255,255,0.1); padding:10px; margin-top:10px; border-radius:5px; }
+</style>
+</head>
+<body>
+<h1>2025 Easy Questions</h1>
+
+<div class="question">
+    <p><strong>Q1:</strong> Find the number of positive integers n less than or equal to 100, which are divisible by 3 but are not divisible by
+2.</p>
+    <input type="number" class="answer-input" min="0" max="99">
+    <button onclick="checkAnswer(17)">Check Answer</button>
+    <button onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">Solution: 33 numbers between 1 and 100 are divisible by 3. 16 numbers between 1 and 100 are divisible by 6. So 17 numbers are divisible by 3 but not by 6, i.e., not divisible by 2.</div>
+</div>
+
+<div class="question">
+    <p><strong>Q2:</strong> Find 5 + 7.</p>
+    <input type="number" class="answer-input" min="0" max="99">
+    <button onclick="checkAnswer(12)">Check Answer</button>
+    <button onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">Solution: 12</div>
+</div>
+
+<script>
+function checkAnswer(correct) {
+    const input = event.target.previousElementSibling; // get input before button
+    const val = parseInt(input.value);
+    if(isNaN(val) || val<0 || val>=100) { alert("Enter 0-99"); return; }
+    if(val === correct) alert("✅ Correct!");
+    else alert("❌ Incorrect!");
+}
+
+function toggleSolution(btn) {
+    const sol = btn.nextElementSibling;
+    sol.style.display = sol.style.display === "none" ? "block" : "none";
+}
+</script>
+
+</body>
+</html>
