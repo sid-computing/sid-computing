@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Cutoffs Bar Graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            text-align: center;
+        }
+        canvas {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>State Cutoffs Bar Graph</h2>
+    <canvas id="cutoffChart"></canvas>
+
+    <script>
+        async function loadData() {
+            const response = await fetch('cutoffs.json'); // Load the JSON file
+            const jsonData = await response.json();
+
+            // Extract X-axis (states) and Y-axis (cutoffs)
+            const states = jsonData.map(item => item.state);
+            const cutoffs = jsonData.map(item => item.cutoff);
+
+            const ctx = document.getElementById('cutoffChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: states,
+                    datasets: [{
+                        label: 'Cutoff Scores',
+                        data: cutoffs,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Cutoff Scores' }
+                        },
+                        x: {
+                            title: { display: true, text: 'States' }
+                        }
+                    }
+                }
+            });
+        }
+
+        loadData(); // Call the function to load data and render chart
+    </script>
+</body>
+</html>
