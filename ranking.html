@@ -34,7 +34,7 @@ let dataJSON = {};
 
 // Load JSON dynamically
 async function loadData() {
-    const res = await fetch('cutoffs.json?ts=' + new Date().getTime());
+    const res = await fetch('ten-percent.json?ts=' + new Date().getTime());
     dataJSON = await res.json();
     populateDropdown();
 }
