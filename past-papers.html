@@ -142,7 +142,8 @@ function startPaper() {
 
     if(!year || !difficulty) { alert("Please select both year and difficulty!"); return; }
 
-    if(!pastPapers[year] || !pastPapers[year][difficulty].length) {
+    // Check if questions exist
+    if(!pastPapers[year] || !pastPapers[year][difficulty] || pastPapers[year][difficulty].length === 0) {
         alert("No questions available for this year/difficulty.");
         return;
     }
@@ -161,7 +162,7 @@ function renderQuestion() {
 
     container.innerHTML = `
         <div class="question">
-            <h2>Question ${currentQuestionIndex + 1}</h2>
+            <h2>Question ${currentQuestionIndex + 1} of ${currentPaper.length}</h2>
             <p>${qObj.q}</p>
 
             <label>Answer: </label>
@@ -207,8 +208,37 @@ function nextQuestion() {
         currentQuestionIndex++;
         renderQuestion();
     } else {
+        // Paper finished, go back to selection menu
         alert("🎉 You have completed this paper!");
-        location.reload(); // go back to selection
+        document.getElementById('content').innerHTML = `
+            <h1>IOQM Past Papers</h1>
+            <div id="selection" style="display:block;">
+                <h2>Select Year & Difficulty</h2>
+                <label for="year-select">Year:</label>
+                <select id="year-select">
+                    <option value="">--Select Year--</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+
+                <label for="difficulty-select">Difficulty:</label>
+                <select id="difficulty-select">
+                    <option value="">--Select Difficulty--</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+
+                <button onclick="startPaper()">Start Paper</button>
+            </div>
+        `;
     }
 }
 </script>
