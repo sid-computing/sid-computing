@@ -1,83 +1,141 @@
-// index.html
-<!doctype html>
-<html lang="en-GB">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#0b1220" />
-  <title>IOQM - Home</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IOQM | Siddhant ISI</title>
+  <meta
+    name="description"
+    content="IOQM preparation hub with past papers, level-wise practice, cut-offs, and rankings. Made by Siddhant, Indian Statistical Institute, New Delhi."
+  />
   <link rel="stylesheet" href="assets/css/main.css" />
-  <script src="[https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js](https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js)"></script>
-  <script src="assets/js/index.js"></script>
+  <script defer src="assets/js/index.js"></script>
 </head>
 <body>
-  <div id="math-bg"></div> <header class="site-header">
-    <div class="container header-row">
-      <a class="brand" href="index.html" aria-label="IOQM Home">
-        <span class="brand-mark">IOQM</span>
-        <span class="brand-sub">Indian Olympiad Qualifier in Mathematics</span>
+  <div class="page-bg"></div>
+
+  <header class="site-header">
+    <div class="container topbar">
+      <div class="brand-wrap">
+        <div class="brand">IOQM</div>
+        <div class="subtitle">Indian Olympiad Qualifier in Mathematics</div>
+      </div>
+
+      <a
+        class="yt-link"
+        href="https://www.youtube.com/@Siddhant_ISI"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        YouTube: @Siddhant_ISI
       </a>
-      <nav class="top-nav" aria-label="Primary">
-        <a class="nav-link" href="past-papers.html">Past papers</a>
-        <a class="nav-link" href="practice.html">Practise</a>
-        <a class="nav-link" href="cutoff-dashboard.html">Past cut-offs</a>
-        <a class="nav-link" href="ranking.html">State rankings</a>
-      </nav>
     </div>
   </header>
 
-  <main id="main" class="container">
-    <section class="hero">
-      <h1 id="hero-title">Practise for IOQM</h1>
-      <p class="hero-lede">Fast, calm, and mathematically immersive.</p>
+  <main class="container main-content">
+    <section class="hero-card">
+      <p class="made-by">
+        Made by <strong>Siddhant</strong>, <strong>Indian Statistical Institute, New Delhi</strong>
+      </p>
+
+      <h1>Practise IOQM in a calm, student-friendly way</h1>
+      <p class="hero-text">
+        Choose a specific year paper, or jump into difficulty-wise practice.
+        Everything is designed to feel simple, focused, and easy on the eyes.
+      </p>
     </section>
 
-    <section class="grid">
-      <article class="card card-primary interactive-card" id="practice-selector">
-        <div class="card-head">
-          <h2 class="card-title">Choose Your Path</h2>
-          <p class="card-text">Select <strong>either</strong> a Year or a Difficulty to begin.</p>
+    <section class="grid two-col">
+      <article class="card">
+        <div class="card-header">
+          <h2>Past Papers by Year</h2>
+          <p>Select a year to open that paper directly.</p>
         </div>
 
-        <form class="paper-form" id="paper-form">
-          <div class="selection-group">
-            <label class="field">
-              <span class="field-label">Option 1: Year</span>
-              <select class="field-control" id="paper-year" name="year">
-                <option value="">-- Choose Year --</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-              </select>
-            </label>
+        <div class="button-grid" id="year-grid">
+          <a class="choice-btn featured-year" href="2025_NW.html">2025 NW</a>
+          <a class="choice-btn" href="2025.html">2025</a>
+          <a class="choice-btn" href="2024.html">2024</a>
+          <a class="choice-btn" href="2023.html">2023</a>
+          <a class="choice-btn" href="2022.html">2022</a>
+          <a class="choice-btn" href="2021.html">2021</a>
+          <a class="choice-btn" href="2020.html">2020</a>
+          <a class="choice-btn" href="2019.html">2019</a>
+          <a class="choice-btn" href="2018.html">2018</a>
+          <a class="choice-btn" href="2017.html">2017</a>
+        </div>
 
-            <div class="separator"><span>OR</span></div>
-
-            <label class="field">
-              <span class="field-label">Option 2: Difficulty</span>
-              <select class="field-control" id="paper-level" name="level">
-                <option value="">-- Choose Level --</option>
-                <option value="easy">Σ Easy</option>
-                <option value="medium">Δ Medium</option>
-                <option value="hard">Ω Hard</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="form-actions">
-            <button class="btn btn-primary ripple-btn" type="submit" id="start-btn">Start Practice</button>
-          </div>
-        </form>
+        <p class="helper-text">
+          To add a new year later, just add another button like
+          <code>&lt;a href="2026.html"&gt;2026&lt;/a&gt;</code>.
+        </p>
       </article>
 
-      <article class="card interactive-card">
-        <h2 class="card-title">State Rankings</h2>
-        <p class="card-text">Explore state-wise patterns with interactive data visualization.</p>
-        <a class="btn btn-secondary" href="ranking.html">Open rankings</a>
+      <article class="card">
+        <div class="card-header">
+          <h2>Practice by Difficulty</h2>
+          <p>Open combined level-wise practice pages.</p>
+        </div>
+
+        <div class="difficulty-stack">
+          <a class="difficulty-btn easy" href="easy.html">
+            <span class="level-title">Easy</span>
+            <span class="level-sub">Warm-up and build confidence</span>
+          </a>
+
+          <a class="difficulty-btn medium" href="medium.html">
+            <span class="level-title">Medium</span>
+            <span class="level-sub">Core IOQM-level practice</span>
+          </a>
+
+          <a class="difficulty-btn hard" href="hard.html">
+            <span class="level-title">Hard</span>
+            <span class="level-sub">Challenging and olympiad-style</span>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid three-col">
+      <article class="mini-card">
+        <h3>Past Cut-offs</h3>
+        <p>See earlier qualifying trends and targets.</p>
+        <a class="mini-link" href="cutoff-dashboard.html">Open cut-offs</a>
+      </article>
+
+      <article class="mini-card">
+        <h3>Practice</h3>
+        <p>Go to your broader practice section.</p>
+        <a class="mini-link" href="practice.html">Open practice</a>
+      </article>
+
+      <article class="mini-card">
+        <h3>State Rankings</h3>
+        <p>Explore rankings and state-wise data.</p>
+        <a class="mini-link" href="ranking.html">Open rankings</a>
       </article>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>
+        © 2026 Siddhant, Indian Statistical Institute, New Delhi. All rights reserved.
+      </p>
+      <p>
+        This resource is created for student learning and practice.
+      </p>
+      <p>
+        YouTube:
+        <a
+          href="https://www.youtube.com/@Siddhant_ISI"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://www.youtube.com/@Siddhant_ISI
+        </a>
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
-
