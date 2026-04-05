@@ -21,13 +21,9 @@ difficultyEnterBtn?.addEventListener("click", () => {
 });
 
 yearSelect?.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    goToSelected(yearSelect);
-  }
+  if (e.key === "Enter") goToSelected(yearSelect);
 });
 
 difficultySelect?.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    goToSelected(difficultySelect);
-  }
+  if (e.key === "Enter") goToSelected(difficultySelect);
 });
