@@ -1,91 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IOQM - Home</title>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.10.1/tsparticles.min.js"></script>
-<style>
-html, body {
-    margin:0; padding:0; width:100%; height:100%;
-    font-family: Arial, sans-serif; background:#0a0a0a; color:#fff;
-    overflow:hidden;
-}
-#particles-js {
-    position:absolute; width:100%; height:100%; z-index:0;
-}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="description" content="IOQM practice hub: past papers, cut-offs, practice sets, and state rankings — built for students." />
 
-#content {
-    position:relative; z-index:1; text-align:center;
-    top:20%; transform: translateY(-20%);
-}
+  <title>IOQM - Home</title>
 
-h1 {
-    font-size:64px; color:#0ff; text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
-    margin-bottom:10px;
-}
-h2 {
-    font-size:32px; color:#ff0; text-shadow: 0 0 15px #ff0;
-    margin-bottom:50px;
-}
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <!-- Optional: add a favicon later -->
+  <!-- <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /> -->
 
-.nav-links {
-    display:flex; flex-direction: column; gap:25px; align-items:center;
-}
-.nav-links a {
-    display:inline-block;
-    padding:20px 40px;
-    font-size:22px;
-    text-decoration:none;
-    color:#fff;
-    border:2px solid #0ff;
-    border-radius:15px;
-    text-shadow: 0 0 10px #0ff;
-    transition: all 0.3s ease;
-}
-.nav-links a:hover {
-    color:#0ff;
-    background: rgba(0,255,255,0.1);
-    box-shadow: 0 0 30px #0ff, 0 0 60px #0ff;
-    transform: scale(1.1);
-}
-</style>
+  <script defer src="assets/js/index.js"></script>
 </head>
+
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-<div id="particles-js"></div>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="index.html" aria-label="IOQM Home">
+        <span class="brand-mark">IOQM</span>
+        <span class="brand-sub">Indian Olympiad Qualifier in Mathematics</span>
+      </a>
 
-<div id="content">
-    <h1>IOQM</h1>
-    <h2>Indian Olympiad Qualifier in Mathematics</h2>
-
-    <div class="nav-links">
-        <a href="past-papers.html">Past Papers</a>
-        <a href="cutoff-dashboard.html">Past Cut-offs</a>
-        <a href="practice.html">Practice</a>
-        <a href="ranking.html">State Rankings</a>
+      <nav class="top-nav" aria-label="Primary">
+        <a class="nav-link" href="past-papers.html">Past papers</a>
+        <a class="nav-link" href="practice.html">Practise</a>
+        <a class="nav-link" href="cutoff-dashboard.html">Past cut-offs</a>
+        <a class="nav-link" href="ranking.html">State rankings</a>
+      </nav>
     </div>
-</div>
+  </header>
 
-<script>
-// Animated particle background
-tsParticles.load("particles-js", {
-    particles: {
-        number: { value: 100 },
-        color: { value: ["#0ff","#ff0","#f0f"] },
-        shape: { type: "circle" },
-        opacity: { value: 0.6, random:true },
-        size: { value: 4, random:true },
-        move: { enable:true, speed:2, direction:"none", outMode:"bounce" },
-        links: { enable:true, distance:150, color:"#0ff", opacity:0.2, width:1 }
-    },
-    interactivity: {
-        events: { onHover:{ enable:true, mode:"repulse" }, onClick:{ enable:true, mode:"push" } },
-        modes:{ repulse:{ distance:120 }, push:{ quantity:4 } }
-    },
-    background: { color:"#0a0a0a" }
-});
-</script>
+  <main id="main" class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">Practise for IOQM</h1>
+      <p class="hero-lede">
+        Past papers, cut-offs, practice sets, and rankings — designed to be fast, calm, and mobile-friendly.
+      </p>
+      <p class="hero-note">
+        Unofficial student resource. Always verify official dates/rules from official organisers.
+      </p>
+    </section>
 
+    <!-- Continue card appears only if remember-last-page is enabled across the site -->
+    <section class="continue" id="continue" hidden aria-label="Continue where you left off">
+      <div class="card card-continue">
+        <div>
+          <h2 class="card-title">Continue where you left off</h2>
+          <p class="card-text" id="continue-text">Resume your last page.</p>
+        </div>
+        <a class="btn btn-primary" id="continue-link" href="past-papers.html">Continue</a>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Quick start">
+      <article class="card card-primary">
+        <div class="card-head">
+          <h2 class="card-title">Start a past paper</h2>
+          <p class="card-text">
+            Choose a year and level. If you haven’t added year-level pages yet, use the Past papers page.
+          </p>
+        </div>
+
+        <form class="paper-form" id="paper-form">
+          <label class="field">
+            <span class="field-label">Year</span>
+            <select class="field-control" id="paper-year" name="year" required>
+              <!-- Filled by JS (you can also hardcode options) -->
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Level</span>
+            <select class="field-control" id="paper-level" name="level" required>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Start</button>
+            <a class="btn btn-secondary" href="past-papers.html">Browse past papers</a>
+          </div>
+
+          <p class="form-help" id="paper-help">
+            Tip: this expects pages named like <code>past-papers/2025_easy.html</code>. You can change this path in <code>assets/js/index.js</code>.
+          </p>
+        </form>
+
+        <noscript>
+          <p class="noscript">
+            JavaScript is disabled — no problem. Use <a href="past-papers.html">Browse past papers</a>.
+          </p>
+        </noscript>
+      </article>
+
+      <article class="card">
+        <h2 class="card-title">Practise by topic</h2>
+        <p class="card-text">
+          Build speed and accuracy with targeted sets (number theory, combinatorics, algebra, geometry).
+        </p>
+        <a class="btn btn-secondary" href="practice.html">Go to practice</a>
+      </article>
+
+      <article class="card">
+        <h2 class="card-title">Past cut-offs</h2>
+        <p class="card-text">
+          See historical cut-offs to plan your target score intelligently.
+        </p>
+        <a class="btn btn-secondary" href="cutoff-dashboard.html">View cut-offs</a>
+      </article>
+
+      <article class="card">
+        <h2 class="card-title">State rankings</h2>
+        <p class="card-text">
+          Explore state-wise performance and understand competition patterns.
+        </p>
+        <a class="btn btn-secondary" href="ranking.html">Open rankings</a>
+      </article>
+    </section>
+
+    <footer class="site-footer">
+      <p class="footer-text">
+        Built for students: large tap targets, clear focus styles, and reduced motion support.
+      </p>
+    </footer>
+  </main>
 </body>
 </html>
