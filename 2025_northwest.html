@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IOQM 2025 Easy</title>
+  <title>IOQM 2025 Mixed Difficulty</title>
   <style>
     :root {
       --bg1: #0f172a;
       --bg2: #1e293b;
       --card: rgba(255, 255, 255, 0.08);
-      --card-solid: #111827;
       --text: #f8fafc;
       --muted: #cbd5e1;
       --accent: #38bdf8;
-      --accent-dark: #0ea5e9;
       --success-bg: rgba(34, 197, 94, 0.16);
       --success-text: #bbf7d0;
       --error-bg: rgba(239, 68, 68, 0.16);
@@ -25,6 +23,18 @@
       --border: rgba(255, 255, 255, 0.12);
       --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
       --radius: 18px;
+
+      --easy-bg1: #16331d;
+      --easy-bg2: #1f4d2b;
+      --easy-accent: #4ade80;
+
+      --moderate-bg1: #3b2a10;
+      --moderate-bg2: #5a3a12;
+      --moderate-accent: #fbbf24;
+
+      --hard-bg1: #3b1111;
+      --hard-bg2: #5a1717;
+      --hard-accent: #f87171;
     }
 
     * {
@@ -37,7 +47,22 @@
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
-      background: linear-gradient(135deg, var(--bg1), var(--bg2), #0b1220);
+      transition: background 0.45s ease;
+    }
+
+    body.easy-mode {
+      background: linear-gradient(135deg, var(--easy-bg1), var(--easy-bg2), #0b1220);
+      --accent: var(--easy-accent);
+    }
+
+    body.moderate-mode {
+      background: linear-gradient(135deg, var(--moderate-bg1), var(--moderate-bg2), #0b1220);
+      --accent: var(--moderate-accent);
+    }
+
+    body.hard-mode {
+      background: linear-gradient(135deg, var(--hard-bg1), var(--hard-bg2), #0b1220);
+      --accent: var(--hard-accent);
     }
 
     body {
@@ -105,6 +130,27 @@
       line-height: 1.6;
     }
 
+    .difficulty-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .difficulty-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
     .progress-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -143,7 +189,7 @@
     .progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--accent), #7dd3fc);
+      background: linear-gradient(90deg, var(--accent), rgba(255,255,255,0.8));
       border-radius: 999px;
       transition: width 0.25s ease;
     }
@@ -170,6 +216,18 @@
     .question-number {
       font-size: 0.95rem;
       color: var(--muted);
+    }
+
+    .question-difficulty {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
     }
 
     .review-btn {
@@ -216,7 +274,7 @@
 
     .answer-input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
     }
 
     .btn {
@@ -244,18 +302,10 @@
       font-weight: 700;
     }
 
-    .btn-primary:hover {
-      background: #67d2fb;
-    }
-
     .btn-secondary {
       background: rgba(255, 255, 255, 0.08);
       color: var(--text);
       border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
     }
 
     .feedback,
@@ -344,7 +394,7 @@
     }
 
     .chip.active {
-      outline: 2px solid rgba(56, 189, 248, 0.35);
+      outline: 2px solid rgba(255, 255, 255, 0.25);
     }
 
     .chip.review {
@@ -461,19 +511,23 @@
     }
   </style>
 </head>
-<body>
+<body class="easy-mode">
   <div class="app">
     <div class="topbar">
       <a class="back-link" href="index.html">← Back to papers</a>
-      <div class="paper-tag">IOQM 2025 · Easy · Practice Mode</div>
+      <div class="paper-tag">IOQM II 2025 · Northwest · Practice Mode</div>
     </div>
 
     <section class="hero">
-      <h1>IOQM 2025 Easy</h1>
+      <h1>IOQM-II 2025</h1>
       <p>
-        Work through one question at a time. Check your answer, open a hint if needed,
-        and reveal the full solution only when you want it. Your progress is saved automatically on this device.
+        Work through one question at a time. The first 5 questions are Easy, the next 3 are Moderate,
+        and the last 2 are Hard. The page theme changes as you move through the paper.
       </p>
+      <div class="difficulty-banner" id="difficulty-banner">
+        <span class="difficulty-dot"></span>
+        <span id="difficulty-banner-text">Current Section: Easy</span>
+      </div>
     </section>
 
     <section class="progress-card">
@@ -488,7 +542,10 @@
 
     <section class="question-card">
       <div class="question-meta">
-        <div class="question-number" id="question-number">Question 1</div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <div class="question-number" id="question-number">Question 1</div>
+          <div class="question-difficulty" id="question-difficulty">Easy</div>
+        </div>
         <button class="review-btn" id="review-btn" type="button">☆ Mark for review</button>
       </div>
 
@@ -532,7 +589,7 @@
     <section class="summary-card" id="summary-card">
       <h2>Session Summary</h2>
       <div class="small-note">
-        This summary is based on the answers you checked on this device. You can retry the whole paper or continue reviewing any question.
+        This summary is based on the answers you checked on this device. You can retry the whole set or continue reviewing any question.
       </div>
 
       <div class="summary-grid">
@@ -562,59 +619,189 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "ioqm_2025_easy_progress_v1";
+    const STORAGE_KEY = "ioqm_2025_mixed_progress_v1";
 
     const questions = [
-      {
-        q: "Find the number of positive integers n less than or equal to 100 which are divisible by 3 but not by 2.",
-        a: 17,
-        hint: "Count the multiples of 3 up to 100 first, then remove those that are also divisible by 2."
-      },
-      {
-        q: "If 60% of a number x is 40, then what is x% of 60?",
-        a: 40,
-        hint: "First find x from 60% of x = 40. Then evaluate x% of 60."
-      },
-      {
-        q: "The area of an integer-sided rectangle is 20. What is the minimum possible value of its perimeter?",
-        a: 18,
-        hint: "List the integer factor pairs of 20 and compare the perimeters."
-      },
-      {
-        q: "How many isosceles integer-sided triangles are there with perimeter 23?",
-        a: 6,
-        hint: "Write the sides as a, a, b with 2a + b = 23, then use the triangle inequality."
-      },
-      {
-        q: "How many 3-digit numbers abc in base 10 are there with a ≠ 0 and c = a + b?",
-        a: 45,
-        hint: "Since c is a digit, a + b must be at most 9. Count pairs (a, b) with a from 1 to 9."
-      },
-      {
-        q: "The age of a person in 2025 is a perfect square. His age was also a perfect square in 2012. His age will be a perfect cube m years after 2025. Determine the smallest value of m.",
-        a: 15,
-        hint: "The ages in 2012 and 2025 differ by 13. Find two perfect squares differing by 13."
-      },
-      {
-        q: "The sum of two real numbers is a positive integer n and the sum of their squares is n + 1012. Find the maximum possible value of n.",
-        a: 46,
-        hint: "If x + y = n, then x² + y² is smallest when x = y = n/2. Use that lower bound."
-      },
-      {
-        q: "A quadrilateral has four vertices A, B, C, D. We colour each vertex red, blue, green, or yellow so that every side of the quadrilateral and the diagonal AC have endpoints of different colours. In how many ways can this be done?",
-        a: 48,
-        hint: "Choose a colour for A, then C must be different, and B and D each avoid two colours."
-      },
-      {
-        q: "Four sides and a diagonal of a quadrilateral are of lengths 10, 20, 28, 50, 75, not necessarily in that order. Which among them is the only possible length of the diagonal?",
-        a: 28,
-        hint: "A diagonal splits the quadrilateral into two triangles. Test whether the remaining four lengths can be split into two valid triangles."
-      },
-      {
-        q: "The height and base radius of a closed right circular cylinder are positive integers and its total surface area is numerically equal to its volume. If its volume is kπ where k is a positive integer, what is the smallest possible value of k?",
-        a: 54,
-        hint: "Set volume = surface area: πr²h = 2πr² + 2πrh. Simplify and search positive integer solutions."
-      }
+{
+  q: "Let ABCD be a quadrilateral with AB parallel to CD and AD = BC. A=(0,0), B=(10,0), C=(8,5), D=(a,b). Find a²b.",
+  a: 80,
+  hint: "Use AD = BC and coordinate distance formula.",
+  difficulty: "Easy"
+},
+{
+  q: "A function is defined by f(n)=n−1 if n is odd and f(n)=n²−1 if n is even. Find sum of all n such that f(f(n))=99.",
+  a: 18,
+  hint: "Work backwards from f(f(n))=99.",
+  difficulty: "Easy"
+},
+{
+  q: "Find number of positive integers n ≤ 100 divisible only by primes 2 or 3.",
+  a: 20,
+  hint: "Count numbers of form 2^a 3^b.",
+  difficulty: "Easy"
+},
+{
+  q: "A die has faces numbered 2⁰,2¹,…,2⁵ with opposite faces multiplying to 2⁵. Two dice are stacked. If N is the greatest sum of visible numbers, find sum of squares of digits of N.",
+  a: 65,
+  hint: "Maximize visible faces while hiding smallest faces.",
+  difficulty: "Easy"
+},
+{
+  q: "Let N be coefficient of x^2025 in (x+1)(x²+3)(x⁴+5)…(x¹⁰²⁴+21). Find N mod 100.",
+  a: 76,
+  hint: "You must pick x from one factor and constants from others.",
+  difficulty: "Easy"
+},
+{
+  q: "Sum of four distinct primes is 240, none exceeding 70. Find the smallest.",
+  a: 13,
+  hint: "Try largest primes first.",
+  difficulty: "Easy"
+},
+{
+  q: "How many n ≤100 are divisible by all integers i such that i³ ≤ n?",
+  a: 10,
+  hint: "Find LCM of required integers.",
+  difficulty: "Easy"
+},
+{
+  q: "In how many ways can numbers 1–6 fill a 2×3 grid so adjacent numbers are coprime?",
+  a: 96,
+  hint: "Try arranging evens first.",
+  difficulty: "Easy"
+},
+{
+  q: "Find largest integer n such that a square of side n fits inside a circle of area 1000.",
+  a: 25,
+  hint: "Relate diagonal of square to circle diameter.",
+  difficulty: "Easy"
+},
+{
+  q: "Find largest n such that sum from k=1 to 2n of (−1)^k k² < 100.",
+  a: 8,
+  hint: "Pair terms and simplify.",
+  difficulty: "Easy"
+},
+{
+  q: "Let m be a positive integer satisfying 5(2m+1)(2m+3)(2m+5) = ababab where a,b are different digits. Find m+a+b.",
+  a: 19,
+  hint: "ababab = 10101×ab. Factor the expression.",
+  difficulty: "Moderate"
+},
+{
+  q: "Find number of ordered pairs (m,n) with m,n ≤ 20000 such that m²+n⁴ is a power of 2.",
+  a: 9,
+  hint: "Both must only contain prime factor 2.",
+  difficulty: "Moderate"
+},
+{
+  q: "In convex quadrilateral ABCD diagonals are 12 and 16. Segments joining midpoints of opposite sides are equal. Find maximum area.",
+  a: 96,
+  hint: "Use parallelogram formed by midpoints.",
+  difficulty: "Moderate"
+},
+{
+  q: "Side AB of square ABCD is 1 and is a chord of circle S. Tangent from C has length 2. If diameter is d, find d².",
+  a: 5,
+  hint: "Use power of a point.",
+  difficulty: "Moderate"
+},
+{
+  q: "If positive integers a,b,c,d satisfy 17(abcd+ab+ad+cd+1)=20(bcd+b+d), find a²+b²+c²+d².",
+  a: 30,
+  hint: "Try factoring expression.",
+  difficulty: "Moderate"
+},
+{
+  q: "If 1 − 1/2 + 1/3 + … + 1/7 equals sum of reciprocals of seven integers xi, find x1+…+x7.",
+  a: 28,
+  hint: "Convert LHS to common denominator.",
+  difficulty: "Moderate"
+},
+{
+  q: "There are 100 cards numbered 1–100. Mainak draws cards blindly. What minimum number ensures product divisible by 6?",
+  a: 3,
+  hint: "You must guarantee at least one factor 2 and one factor 3.",
+  difficulty: "Moderate"
+},
+{
+  q: "From (0,0) to (7,12) moving only East or North but avoiding points where both coordinates are odd. Find number of paths.",
+  a: 462,
+  hint: "Total paths minus forbidden paths.",
+  difficulty: "Moderate"
+},
+{
+  q: "Find number of ordered pairs (m,n) with 1 ≤ m < n ≤ 50 such that mn is a perfect square.",
+  a: 48,
+  hint: "Write numbers as square × squarefree.",
+  difficulty: "Moderate"
+},
+{
+  q: "How many four digit numbers abcd with nonzero digits satisfy a+c = bd and b+d = ac?",
+  a: 9,
+  hint: "Solve system as digit constraints.",
+  difficulty: "Moderate"
+},
+{
+  q: "Let f : R → R satisfy 4f(3−x) + 3f(x) = x². Find f(27) − f(25) to nearest integer.",
+  a: 26,
+  hint: "Substitute x and 3−x to form two equations.",
+  difficulty: "Hard"
+},
+{
+  q: "Three girls G1,G2,G3 each like some of four stories. No story is liked by all three. Each pair likes at least one story not liked by the third. If n is number of ways, find sum of squares of digits of n.",
+  a: 13,
+  hint: "Count valid assignments of liking patterns.",
+  difficulty: "Hard"
+},
+{
+  q: "Let P be inside triangle ABC and AP, BP, CP meet sides at D,E,F. Given BP/PE=5/2 and CP/PF=7/3. If AP/PD=p/q, find p+q.",
+  a: 17,
+  hint: "Use mass points.",
+  difficulty: "Hard"
+},
+{
+  q: "If positive integers a,b satisfy 4^a + 4a² + 4 = b², find maximum a+b.",
+  a: 11,
+  hint: "Rewrite as near-square.",
+  difficulty: "Hard"
+},
+{
+  q: "How many natural numbers n ≤ 10⁵ satisfy 7 | (2n − n²)?",
+  a: 14286,
+  hint: "Solve mod 7.",
+  difficulty: "Hard"
+},
+{
+  q: "Triangle ABC has D midpoint of BC, O circumcenter, H orthocenter. If triangle ODH is equilateral with side 6 and area of ABC is a√b, find a+b.",
+  a: 39,
+  hint: "Use Euler line relations.",
+  difficulty: "Hard"
+},
+{
+  q: "Find smallest a+b such that ab = 406 + 11lcm(a,b) + 7gcd(a,b).",
+  a: 29,
+  hint: "Let gcd=g and rewrite using a=gx, b=gy.",
+  difficulty: "Hard"
+},
+{
+  q: "Ten people of different heights stand with shortest at left, tallest at right, and exactly one person shorter than both neighbors. If N=100a+b, find a+b.",
+  a: 64,
+  hint: "Count permutations with one local minimum.",
+  difficulty: "Hard"
+},
+{
+  q: "In isosceles triangle (13,13,10), tangents to incircle parallel to sides form hexagon. If area is (m+n)/l find m+n+l.",
+  a: 33,
+  hint: "Use symmetry and similar triangles.",
+  difficulty: "Hard"
+},
+{
+  q: "Vertices of a regular dodecagon are colored red/blue. No monochromatic equilateral triangle or square allowed. If N=100p+q, find p+q.",
+  a: 71,
+  hint: "Count valid colorings by exclusion.",
+  difficulty: "Hard"
+},
     ];
 
     let currentIndex = 0;
@@ -634,6 +821,8 @@
       statusLabel: document.getElementById("status-label"),
       progressFill: document.getElementById("progress-fill"),
       questionNumber: document.getElementById("question-number"),
+      questionDifficulty: document.getElementById("question-difficulty"),
+      difficultyBannerText: document.getElementById("difficulty-banner-text"),
       reviewBtn: document.getElementById("review-btn"),
       questionText: document.getElementById("question-text"),
       answerInput: document.getElementById("answer-input"),
@@ -655,6 +844,26 @@
       hideSummaryBtn: document.getElementById("hide-summary-btn"),
       resetBtn: document.getElementById("reset-btn")
     };
+
+    function getDifficulty(index) {
+      return questions[index].difficulty;
+    }
+
+    function applyDifficultyTheme(index) {
+      const difficulty = getDifficulty(index);
+      document.body.classList.remove("easy-mode", "moderate-mode", "hard-mode");
+
+      if (difficulty === "Easy") {
+        document.body.classList.add("easy-mode");
+      } else if (difficulty === "Moderate") {
+        document.body.classList.add("moderate-mode");
+      } else {
+        document.body.classList.add("hard-mode");
+      }
+
+      els.questionDifficulty.textContent = difficulty;
+      els.difficultyBannerText.textContent = `Current Section: ${difficulty}`;
+    }
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -746,6 +955,7 @@
       els.prevBtn.disabled = currentIndex === 0;
       els.nextBtn.disabled = currentIndex === questions.length - 1;
 
+      applyDifficultyTheme(currentIndex);
       renderProgress();
       renderOverview();
       saveState();
@@ -754,7 +964,7 @@
     function renderOverview() {
       els.questionChips.innerHTML = "";
 
-      questions.forEach((_, i) => {
+      questions.forEach((q, i) => {
         const chip = document.createElement("div");
         chip.className = "chip";
 
@@ -767,7 +977,12 @@
 
         const button = document.createElement("button");
         button.type = "button";
-        button.textContent = `Q${i + 1}`;
+
+        const label =
+          q.difficulty === "Easy" ? "E" :
+          q.difficulty === "Moderate" ? "M" : "H";
+
+        button.textContent = `Q${i + 1} · ${label}`;
         button.addEventListener("click", () => {
           currentIndex = i;
           state.currentIndex = currentIndex;
