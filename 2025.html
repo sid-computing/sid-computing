@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IOQM 2025 Medium</title>
+  <title>IOQM 2025 Mixed Difficulty</title>
   <style>
     :root {
       --bg1: #0f172a;
       --bg2: #1e293b;
       --card: rgba(255, 255, 255, 0.08);
-      --card-solid: #111827;
       --text: #f8fafc;
       --muted: #cbd5e1;
       --accent: #38bdf8;
-      --accent-dark: #0ea5e9;
       --success-bg: rgba(34, 197, 94, 0.16);
       --success-text: #bbf7d0;
       --error-bg: rgba(239, 68, 68, 0.16);
@@ -25,6 +23,18 @@
       --border: rgba(255, 255, 255, 0.12);
       --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
       --radius: 18px;
+
+      --easy-bg1: #16331d;
+      --easy-bg2: #1f4d2b;
+      --easy-accent: #4ade80;
+
+      --moderate-bg1: #3b2a10;
+      --moderate-bg2: #5a3a12;
+      --moderate-accent: #fbbf24;
+
+      --hard-bg1: #3b1111;
+      --hard-bg2: #5a1717;
+      --hard-accent: #f87171;
     }
 
     * {
@@ -37,7 +47,22 @@
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
-      background: linear-gradient(135deg, var(--bg1), var(--bg2), #0b1220);
+      transition: background 0.45s ease;
+    }
+
+    body.easy-mode {
+      background: linear-gradient(135deg, var(--easy-bg1), var(--easy-bg2), #0b1220);
+      --accent: var(--easy-accent);
+    }
+
+    body.moderate-mode {
+      background: linear-gradient(135deg, var(--moderate-bg1), var(--moderate-bg2), #0b1220);
+      --accent: var(--moderate-accent);
+    }
+
+    body.hard-mode {
+      background: linear-gradient(135deg, var(--hard-bg1), var(--hard-bg2), #0b1220);
+      --accent: var(--hard-accent);
     }
 
     body {
@@ -105,6 +130,27 @@
       line-height: 1.6;
     }
 
+    .difficulty-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .difficulty-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
     .progress-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -143,7 +189,7 @@
     .progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--accent), #7dd3fc);
+      background: linear-gradient(90deg, var(--accent), rgba(255,255,255,0.8));
       border-radius: 999px;
       transition: width 0.25s ease;
     }
@@ -170,6 +216,18 @@
     .question-number {
       font-size: 0.95rem;
       color: var(--muted);
+    }
+
+    .question-difficulty {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
     }
 
     .review-btn {
@@ -216,7 +274,7 @@
 
     .answer-input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
     }
 
     .btn {
@@ -244,18 +302,10 @@
       font-weight: 700;
     }
 
-    .btn-primary:hover {
-      background: #67d2fb;
-    }
-
     .btn-secondary {
       background: rgba(255, 255, 255, 0.08);
       color: var(--text);
       border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
     }
 
     .feedback,
@@ -344,7 +394,7 @@
     }
 
     .chip.active {
-      outline: 2px solid rgba(56, 189, 248, 0.35);
+      outline: 2px solid rgba(255, 255, 255, 0.25);
     }
 
     .chip.review {
@@ -461,19 +511,23 @@
     }
   </style>
 </head>
-<body>
+<body class="easy-mode">
   <div class="app">
     <div class="topbar">
       <a class="back-link" href="index.html">← Back to papers</a>
-      <div class="paper-tag">IOQM 2025 · Medium · Practice Mode</div>
+      <div class="paper-tag">IOQM 2025 · Mixed Difficulty · Practice Mode</div>
     </div>
 
     <section class="hero">
-      <h1>IOQM 2025 Medium</h1>
+      <h1>IOQM 2025 Mixed Difficulty</h1>
       <p>
-        Work through one question at a time. Check your answer, open a hint if needed,
-        and reveal the full solution only when you want it. Your progress is saved automatically on this device.
+        Work through one question at a time. The first 5 questions are Easy, the next 3 are Moderate,
+        and the last 2 are Hard. The page theme changes as you move through the paper.
       </p>
+      <div class="difficulty-banner" id="difficulty-banner">
+        <span class="difficulty-dot"></span>
+        <span id="difficulty-banner-text">Current Section: Easy</span>
+      </div>
     </section>
 
     <section class="progress-card">
@@ -488,7 +542,10 @@
 
     <section class="question-card">
       <div class="question-meta">
-        <div class="question-number" id="question-number">Question 1</div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <div class="question-number" id="question-number">Question 1</div>
+          <div class="question-difficulty" id="question-difficulty">Easy</div>
+        </div>
         <button class="review-btn" id="review-btn" type="button">☆ Mark for review</button>
       </div>
 
@@ -562,58 +619,68 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "ioqm_2025_medium_progress_v1";
+    const STORAGE_KEY = "ioqm_2025_mixed_progress_v1";
 
     const questions = [
       {
         q: "Consider a fraction a/b ≠ 3/4, where a, b are positive integers with gcd(a, b) = 1 and b ≤ 15. If this fraction is chosen closest to 3/4 amongst all such fractions, then what is the value of a + b?.",
         a: 61,
-        hint: "To be added."
+        hint: "Look at fractions with denominator at most 15 that are nearest to 3/4, and compare the distance carefully.",
+        difficulty: "Easy"
       },
       {
-        q: "Consider five­-digit positive integers of the form abcab that are divisible by the two digit number ab but not divisible by 13. What is the largest possible sum of the digits of such a number?",
+        q: "Consider five-digit positive integers of the form abcab that are divisible by the two digit number ab but not divisible by 13. What is the largest possible sum of the digits of such a number?",
         a: 33,
-        hint: "To be added."
+        hint: "Treat ab as a 2-digit number and use divisibility on abcab written in expanded form.",
+        difficulty: "Easy"
       },
       {
         q: "Three sides of a quadrilateral are a = 4√3, b = 9 and c = √3. The sides a and b enclose an angle of 30°, and the sides b and c enclose an angle of 90°. If the acute angle between the diagonals is x°, what is the value of x?",
         a: 60,
-        hint: "List the integer factor pairs of 20 and compare the perimeters."
+        hint: "Place the quadrilateral on coordinates and compute the slopes or direction vectors of the diagonals.",
+        difficulty: "Easy"
       },
       {
         q: "How many isosceles integer-sided triangles are there with perimeter 23?",
         a: 6,
-        hint: "Write the sides as a, a, b with 2a + b = 23, then use the triangle inequality."
+        hint: "Write the sides as a, a, b with 2a + b = 23, then use the triangle inequality.",
+        difficulty: "Easy"
       },
       {
         q: "How many 3-digit numbers abc in base 10 are there with a ≠ 0 and c = a + b?",
         a: 45,
-        hint: "Since c is a digit, a + b must be at most 9. Count pairs (a, b) with a from 1 to 9."
+        hint: "Since c is a digit, a + b must be at most 9. Count valid pairs (a, b).",
+        difficulty: "Easy"
       },
       {
         q: "The age of a person in 2025 is a perfect square. His age was also a perfect square in 2012. His age will be a perfect cube m years after 2025. Determine the smallest value of m.",
         a: 15,
-        hint: "The ages in 2012 and 2025 differ by 13. Find two perfect squares differing by 13."
+        hint: "The ages in 2012 and 2025 differ by 13. Find perfect squares differing by 13, then move forward to the next perfect cube.",
+        difficulty: "Moderate"
       },
       {
         q: "The sum of two real numbers is a positive integer n and the sum of their squares is n + 1012. Find the maximum possible value of n.",
         a: 46,
-        hint: "If x + y = n, then x² + y² is smallest when x = y = n/2. Use that lower bound."
+        hint: "If x + y = n, then x² + y² is minimized when x = y = n/2. Use that inequality.",
+        difficulty: "Moderate"
       },
       {
         q: "A quadrilateral has four vertices A, B, C, D. We colour each vertex red, blue, green, or yellow so that every side of the quadrilateral and the diagonal AC have endpoints of different colours. In how many ways can this be done?",
         a: 48,
-        hint: "Choose a colour for A, then C must be different, and B and D each avoid two colours."
+        hint: "Choose a colour for A first. Then C must differ from A, and B and D must avoid the colours at their adjacent endpoints.",
+        difficulty: "Moderate"
       },
       {
         q: "Four sides and a diagonal of a quadrilateral are of lengths 10, 20, 28, 50, 75, not necessarily in that order. Which among them is the only possible length of the diagonal?",
         a: 28,
-        hint: "A diagonal splits the quadrilateral into two triangles. Test whether the remaining four lengths can be split into two valid triangles."
+        hint: "A diagonal splits the quadrilateral into two triangles. Test possible diagonal choices using triangle inequalities.",
+        difficulty: "Hard"
       },
       {
         q: "The height and base radius of a closed right circular cylinder are positive integers and its total surface area is numerically equal to its volume. If its volume is kπ where k is a positive integer, what is the smallest possible value of k?",
         a: 54,
-        hint: "Set volume = surface area: πr²h = 2πr² + 2πrh. Simplify and search positive integer solutions."
+        hint: "Set πr²h = 2πr² + 2πrh, simplify, and search positive integer solutions systematically.",
+        difficulty: "Hard"
       }
     ];
 
@@ -634,6 +701,8 @@
       statusLabel: document.getElementById("status-label"),
       progressFill: document.getElementById("progress-fill"),
       questionNumber: document.getElementById("question-number"),
+      questionDifficulty: document.getElementById("question-difficulty"),
+      difficultyBannerText: document.getElementById("difficulty-banner-text"),
       reviewBtn: document.getElementById("review-btn"),
       questionText: document.getElementById("question-text"),
       answerInput: document.getElementById("answer-input"),
@@ -655,6 +724,26 @@
       hideSummaryBtn: document.getElementById("hide-summary-btn"),
       resetBtn: document.getElementById("reset-btn")
     };
+
+    function getDifficulty(index) {
+      return questions[index].difficulty;
+    }
+
+    function applyDifficultyTheme(index) {
+      const difficulty = getDifficulty(index);
+      document.body.classList.remove("easy-mode", "moderate-mode", "hard-mode");
+
+      if (difficulty === "Easy") {
+        document.body.classList.add("easy-mode");
+      } else if (difficulty === "Moderate") {
+        document.body.classList.add("moderate-mode");
+      } else {
+        document.body.classList.add("hard-mode");
+      }
+
+      els.questionDifficulty.textContent = difficulty;
+      els.difficultyBannerText.textContent = `Current Section: ${difficulty}`;
+    }
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -746,6 +835,7 @@
       els.prevBtn.disabled = currentIndex === 0;
       els.nextBtn.disabled = currentIndex === questions.length - 1;
 
+      applyDifficultyTheme(currentIndex);
       renderProgress();
       renderOverview();
       saveState();
@@ -754,7 +844,7 @@
     function renderOverview() {
       els.questionChips.innerHTML = "";
 
-      questions.forEach((_, i) => {
+      questions.forEach((q, i) => {
         const chip = document.createElement("div");
         chip.className = "chip";
 
@@ -767,7 +857,12 @@
 
         const button = document.createElement("button");
         button.type = "button";
-        button.textContent = `Q${i + 1}`;
+
+        const label =
+          q.difficulty === "Easy" ? "E" :
+          q.difficulty === "Moderate" ? "M" : "H";
+
+        button.textContent = `Q${i + 1} · ${label}`;
         button.addEventListener("click", () => {
           currentIndex = i;
           state.currentIndex = currentIndex;
